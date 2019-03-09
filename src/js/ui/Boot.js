@@ -100,7 +100,15 @@ function importURL(){
 	
 	/* index.htmlからURLが入力されていない場合は現在のURLの?以降をとってくる */
 	search = search || location.search;
-	if(!search){ return null;}
+	if(!search){
+		/* fall back to path */
+		if(location.path.match(/^\/p\//)){
+			search = location.path.substr(3);
+		}
+		if(!search){
+			return null;
+		}
+	}
 	
 	/* 一旦先頭の?記号を取り除く */
 	if(search.charAt(0)==="?"){ search = search.substr(1);}
